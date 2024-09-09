@@ -1,9 +1,9 @@
 <!-- Add Google and Gemini icons at the top -->
 <p align="center">
-  <img src="https://github.com/user-attachments/assets/c4324e8f-c7eb-48e7-8787-ca24fa07f028" alt="Gemini Logo" width="300" height="250"/>
+  <img src="https://github.com/user-attachments/assets/c4324e8f-c7eb-48e7-8787-ca24fa07f028" alt="Gemini Logo" width="300" height="300"/>
 </p>
 <p align="center">
-  <img src="https://github.com/user-attachments/assets/4d942136-7972-47f0-8472-0096c7a7091c" alt="Google Logo" width="300" height="100"/>
+  <img src="https://github.com/user-attachments/assets/4d942136-7972-47f0-8472-0096c7a7091c" alt="Google Logo" width="300" height="120"/>
 </p>
 # Gemini AI Chatbot
 
