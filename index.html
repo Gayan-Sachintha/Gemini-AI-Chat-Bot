@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Chatbot</title>
+<style>
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  body {
+    font-family: 'Arial', sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background-color: #f9fafc;
+    padding: 10px;
+    position: relative;
+  }
+
+  #chat-container {
+    background-color: #ffffff;
+    border-radius: 15px;
+    padding: 20px;
+    box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 450px;
+    display: flex;
+    flex-direction: column;
+  }
+
+  h1 {
+    text-align: center;
+    margin-bottom: 20px;
+    color: #333;
+    font-size: 1.8em;
+  }
+
+  #chat-history {
+    height: 400px;
+    overflow-y: auto;
+    padding-right: 10px;
+    scrollbar-width: thin;
+    scrollbar-color: #ccc transparent;
+    border: 1px solid #f0f0f0;
+    border-radius: 10px;
+    background-color: #f9fafc;
+    padding: 15px;
+    margin-bottom: 20px;
+  }
+
+  #chat-history::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  #chat-history::-webkit-scrollbar-thumb {
+    background-color: #ccc;
+    border-radius: 10px;
+  }
+
+  .user-message, .bot-message {
+    max-width: 75%;
+    padding: 12px 16px;
+    border-radius: 10px;
+    margin-bottom: 10px;
+    position: relative;
+    font-size: 14px;
+    line-height: 1.4;
+    word-wrap: break-word;
+  }
+
+  .user-message {
+    align-self: flex-end;
+    background-color: #e0f7fa;
+    color: #00796b;
+  }
+
+  .bot-message {
+    align-self: flex-start;
+    background-color: #e8f5e9;
+    color: #388e3c;
+  }
+
+  form {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  input[type="text"] {
+    flex-grow: 1;
+    padding: 12px;
+    border-radius: 25px;
+    border: 1px solid #ccc;
+    outline: none;
+    transition: all 0.3s ease-in-out;
+    font-size: 14px;
+  }
+
+  input[type="text"]:focus {
+    border-color: #4CAF50;
+    box-shadow: 0 0 5px rgba(76, 175, 80, 0.3);
+  }
+
+  button {
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    padding: 12px 20px;
+    border-radius: 25px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    font-size: 14px;
+  }
+
+  button:hover {
+    background-color: #45a049;
+  }
+
+  #loader {
+    display: none;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1000;
+  }
+
+  #loader img {
+    width: 100px;
+    height: 100px;
+  }
+
+  /* Add smooth transitions to chat messages */
+  .user-message, .bot-message {
+    opacity: 0;
+    transform: translateY(20px);
+    animation: fadeIn 0.3s forwards ease-in-out;
+  }
+
+  @keyframes fadeIn {
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  /* Responsive Design */
+  @media (max-width: 768px) {
+    #chat-container {
+      width: 100%;
+      max-width: 90%;
+    }
+
+    h1 {
+      font-size: 1.5em;
+    }
+
+    #chat-history {
+      height: 300px;
+    }
+  }
+
+</style>
+</head>
+<body>
+  <div id="chat-container">
+  <h1>Nova-Agent</h1>
+  <div id="chat-history"></div>
+  <form id="chat-form">
+    <input type="text" id="user-input" placeholder="Enter your message">
+    <button type="submit">Send</button>
+  </form>
+</div>
+<div id="loader">
+  <img src="loader.gif" width="150px" alt="Loading...">
+</div>
+  <script>
+    const chatHistory = document.getElementById('chat-history');
+    const userInput = document.getElementById('user-input');
+    const form = document.getElementById('chat-form');
+
+    async function sendMessage() {
+      const userMessage = userInput.value;
+      userInput.value = ''; 
+      console.log(userMessage)
+      try {
+        const response = await fetch('/chat', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ userInput: userMessage }),
+        });
+
+        const data = await response.json();
+        console.log(data)
+        const botMessage = data.response;
+        console.log(botMessage)
+         chatHistory.innerHTML += `<div class="user-message">${userMessage}</div>`;
+        chatHistory.innerHTML += `<div class="bot-message">${botMessage}</div>`;
+
+    
+        chatHistory.scrollTop = chatHistory.scrollHeight;
+      } catch (error) {
+        console.error('Error:', error);
+ 
+      }
+    }
+
+    form.addEventListener('submit', (event) => {
+      event.preventDefault(); 
+      const loader = document.getElementById('loader');
+      loader.style.display = 'block'; 
+      sendMessage().finally(() => {
+      loader.style.display = 'none';  
+    });;
+    });
+  </script>
+</body>
+</html>
