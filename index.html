@@ -7,6 +7,7 @@
   <title>Chatbot</title>
 
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet"> <!-- Bootstrap Icons -->
 
   <style>
     * {
@@ -51,7 +52,6 @@
       }
     }
 
-
     #bot-icon {
       position: fixed;
       bottom: 30px;
@@ -90,18 +90,6 @@
 
     #chat-container.active {
       display: flex;
-    }
-
-    #chat-container::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background: linear-gradient(45deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05));
-      z-index: -1;
-      border-radius: inherit;
     }
 
     h1 {
@@ -180,7 +168,7 @@
       box-shadow: 0 0 5px rgba(76, 175, 80, 0.3);
     }
 
-    button {
+    .btnbtn {
       background-color: #4CAF50;
       color: white;
       border: none;
@@ -191,8 +179,23 @@
       font-size: 14px;
     }
 
-    button:hover {
+    .btnbtn:hover {
       background-color: #45a049;
+    }
+
+    #mic-button {
+      background: none;
+      border: none;
+      color: #007bff;
+      font-size: 24px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    #mic-button:focus {
+      outline: none;
     }
 
     .spinner-border {
@@ -226,7 +229,8 @@
 
     <form id="chat-form">
       <input type="text" id="user-input" placeholder="Enter your message">
-      <button type="submit">Send</button>
+      <button type="button" id="mic-button"><i class="bi bi-mic-fill"></i></button> <!-- Bootstrap mic icon -->
+      <button type="submit" class="btnbtn">Send</button>
     </form>
   </div>
   <div id="bot-icon"></div>
@@ -240,10 +244,41 @@
     const chatHistory = document.getElementById('chat-history');
     const userInput = document.getElementById('user-input');
     const form = document.getElementById('chat-form');
+    const micButton = document.getElementById('mic-button');
+    let recognition;
 
+    // Toggle chat window
     botIcon.addEventListener('click', () => {
       chatContainer.classList.toggle('active');
     });
+
+    // Initialize Speech Recognition API
+    if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
+      recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
+      recognition.lang = 'en-US';
+      recognition.interimResults = true; // Allow interim results for live text preview
+      recognition.maxAlternatives = 1;
+
+      micButton.addEventListener('click', () => {
+        recognition.start();
+      });
+
+      recognition.onresult = (event) => {
+        const transcript = event.results[0][0].transcript;
+        userInput.value = transcript; // Live preview of the speech-to-text result
+      };
+
+      recognition.onspeechend = () => {
+        recognition.stop(); // Stop recognition when the user stops speaking
+      };
+
+      recognition.onerror = (event) => {
+        console.error('Speech recognition error:', event.error);
+      };
+    } else {
+      micButton.disabled = true;
+      micButton.title = 'Speech recognition not supported in this browser';
+    }
 
     async function sendMessage() {
       const userMessage = userInput.value;
