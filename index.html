@@ -7,7 +7,7 @@
   <title>Chatbot</title>
 
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet"> <!-- Bootstrap Icons -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
 
   <style>
     * {
@@ -172,8 +172,10 @@
     }
 
     .btnbtn {
-      background-color: #4CAF50;
-      color: white;
+      background: rgba(255, 255, 255, 0.348);
+      border: 1px solid rgba(255, 255, 255, 0.3);
+
+      color: black;
       border: none;
       padding: 12px 20px;
       border-radius: 25px;
@@ -183,13 +185,13 @@
     }
 
     .btnbtn:hover {
-      background-color: #45a049;
+      background: rgba(255, 255, 255, 0.849);
     }
 
     #mic-button {
       background: none;
       border: none;
-      color: #007bff;
+      color: #67676791;
       font-size: 24px;
       cursor: pointer;
       display: flex;
@@ -244,8 +246,8 @@
     <div id="chat-history"></div>
 
     <form id="chat-form">
-      <input type="text" id="user-input" placeholder="Enter your message">
       <button type="button" id="mic-button"><i class="bi bi-mic-fill"></i></button>
+      <input type="text" id="user-input" placeholder="Enter your message">
       <button type="submit" class="btnbtn">Send</button>
     </form>
   </div>
@@ -270,7 +272,7 @@
     if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
       recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
       recognition.lang = 'en-US';
-      recognition.interimResults = true; 
+      recognition.interimResults = true;
       recognition.maxAlternatives = 1;
 
       micButton.addEventListener('click', () => {
@@ -279,11 +281,11 @@
 
       recognition.onresult = (event) => {
         const transcript = event.results[0][0].transcript;
-        userInput.value = transcript; 
+        userInput.value = transcript;
       };
 
       recognition.onspeechend = () => {
-        recognition.stop(); 
+        recognition.stop();
       };
 
       recognition.onerror = (event) => {
