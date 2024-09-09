@@ -179,11 +179,14 @@
     input[type="text"] {
       flex-grow: 1;
       padding: 12px;
-      border-radius: 25px;
+      border-radius: 10px;
       border: 1px solid #ccc;
       outline: none;
       transition: all 0.3s ease-in-out;
       font-size: 14px;
+      background: rgba(255, 255, 255, 0.15);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
     }
 
     input[type="text"]:focus {
@@ -197,7 +200,7 @@
       color: black;
       border: none;
       padding: 12px 20px;
-      border-radius: 25px;
+      border-radius: 40px;
       cursor: pointer;
       transition: background-color 0.3s ease;
       font-size: 14px;
@@ -266,10 +269,10 @@
 <body>
   <div id="chat-container">
     <div class="header">
-      <h1>Nova-Agent</h1>
+      <h1 style="color: cadetblue">Nova-Agent</h1>
       <div class="online-status">
         <i class="bi bi-circle-fill"></i>
-        <span>Online</span>
+        <span style="color: cadetblue">Online</span>
       </div>
     </div>
     <div id="chat-history"></div>
