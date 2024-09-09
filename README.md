@@ -1,8 +1,8 @@
 <!-- Add Google and Gemini icons at the top -->
 <p align="center">
-  <img src="https://upload.wikimedia.org/wikipedia/commons/4/4a/Logo_2015_Google.png" alt="Google Logo" width="100" height="40"/>
+  <img src="https://github.com/user-attachments/assets/4d942136-7972-47f0-8472-0096c7a7091c" alt="Google Logo" width="100" height="40"/>
   &nbsp;&nbsp;&nbsp;
-  <img src="https://upload.wikimedia.org/wikipedia/commons/c/c3/Gemini_1_Insignia.png" alt="Gemini Logo" width="100" height="40"/>
+  <img src="https://github.com/user-attachments/assets/c4324e8f-c7eb-48e7-8787-ca24fa07f028" alt="Gemini Logo" width="100" height="40"/>
 </p>
 
 # gemini-ai-chatbot
