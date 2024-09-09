@@ -145,6 +145,9 @@
       align-self: flex-start;
       background-color: #e8f5e9;
       color: #388e3c;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
     }
 
     form {
@@ -198,6 +201,19 @@
       outline: none;
     }
 
+    .read-aloud {
+      background: none;
+      border: none;
+      color: #007bff;
+      font-size: 20px;
+      cursor: pointer;
+      margin-left: 10px;
+    }
+
+    .read-aloud:focus {
+      outline: none;
+    }
+
     .spinner-border {
       width: 1.5rem;
       height: 1.5rem;
@@ -229,7 +245,7 @@
 
     <form id="chat-form">
       <input type="text" id="user-input" placeholder="Enter your message">
-      <button type="button" id="mic-button"><i class="bi bi-mic-fill"></i></button> <!-- Bootstrap mic icon -->
+      <button type="button" id="mic-button"><i class="bi bi-mic-fill"></i></button>
       <button type="submit" class="btnbtn">Send</button>
     </form>
   </div>
@@ -247,16 +263,14 @@
     const micButton = document.getElementById('mic-button');
     let recognition;
 
-    // Toggle chat window
     botIcon.addEventListener('click', () => {
       chatContainer.classList.toggle('active');
     });
 
-    // Initialize Speech Recognition API
     if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
       recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
       recognition.lang = 'en-US';
-      recognition.interimResults = true; // Allow interim results for live text preview
+      recognition.interimResults = true; 
       recognition.maxAlternatives = 1;
 
       micButton.addEventListener('click', () => {
@@ -265,11 +279,11 @@
 
       recognition.onresult = (event) => {
         const transcript = event.results[0][0].transcript;
-        userInput.value = transcript; // Live preview of the speech-to-text result
+        userInput.value = transcript; 
       };
 
       recognition.onspeechend = () => {
-        recognition.stop(); // Stop recognition when the user stops speaking
+        recognition.stop(); 
       };
 
       recognition.onerror = (event) => {
@@ -306,6 +320,14 @@
 
         const botMessageDiv = document.createElement('div');
         botMessageDiv.classList.add('bot-message');
+        botMessageDiv.innerHTML = `${botMessage}`;
+
+        const readAloudBtn = document.createElement('button');
+        readAloudBtn.classList.add('read-aloud');
+        readAloudBtn.innerHTML = '<i class="bi bi-volume-up-fill"></i>';
+        readAloudBtn.addEventListener('click', () => readAloud(botMessage));
+        botMessageDiv.appendChild(readAloudBtn);
+
         chatHistory.appendChild(botMessageDiv);
 
         const typewriter = new Typewriter(botMessageDiv, {
@@ -322,6 +344,11 @@
         console.error('Error:', error);
         userMessageDiv.querySelector('.spinner-border').remove();
       }
+    }
+
+    function readAloud(text) {
+      const utterance = new SpeechSynthesisUtterance(text);
+      speechSynthesis.speak(utterance);
     }
 
     form.addEventListener('submit', (event) => {
