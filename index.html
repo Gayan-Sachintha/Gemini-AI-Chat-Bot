@@ -306,7 +306,7 @@
 
       micButton.addEventListener('click', () => {
         recognition.start();
-        micButton.classList.add('active');  // Turn mic button red
+        micButton.classList.add('active');  
       });
 
       recognition.onresult = (event) => {
@@ -316,12 +316,12 @@
 
       recognition.onspeechend = () => {
         recognition.stop();
-        micButton.classList.remove('active');  // Reset mic button color
+        micButton.classList.remove('active');   
       };
 
       recognition.onerror = (event) => {
         console.error('Speech recognition error:', event.error);
-        micButton.classList.remove('active');  // Reset mic button color if there's an error
+        micButton.classList.remove('active');   
       };
     } else {
       micButton.disabled = true;
