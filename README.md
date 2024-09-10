@@ -20,7 +20,7 @@ To set up the project locally, follow these steps:
 
 1. Clone the repository:
     ```bash
-    git clone https://github.com/yourusername/gemini-ai-chatbot.git
+    git clone [https://github.com/yourusername/gemini-ai-chatbot.git](https://github.com/Gayan-Sachintha/Gemini-AI-Chat-Bot.git)
     cd gemini-ai-chatbot
     ```
 
